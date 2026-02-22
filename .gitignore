@@ -18,6 +18,7 @@ build/
 # Data files - keep nothing for clean deployment
 *.csv
 *.txt
+!requirements.txt
 !requirements_minimal.txt
 !README_DEPLOY.md
 
