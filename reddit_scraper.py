@@ -7,7 +7,6 @@ from typing import List, Dict, Optional
 import time
 from datetime import datetime
 import pandas as pd
-from utils import PipelineLogger
 
 
 class RedditScraper:
@@ -37,10 +36,8 @@ class RedditScraper:
                     client_secret=client_secret,
                     user_agent=self.user_agent
                 )
-                PipelineLogger.success("Reddit API initialized")
             except Exception as e:
-                PipelineLogger.warning(f"Reddit API init failed: {e}")
-                PipelineLogger.info("Will use read-only mode")
+                pass
     
     def fetch_user_posts(self, username: str, limit: int = 100) -> pd.DataFrame:
         """
@@ -53,8 +50,6 @@ class RedditScraper:
         Returns:
             DataFrame with columns: text, type, score, created_utc
         """
-        PipelineLogger.info(f"Fetching posts from u/{username}...")
-        
         if not self.reddit:
             # Check if we have valid credentials
             if not self.client_id or not self.client_secret:
@@ -77,7 +72,6 @@ class RedditScraper:
             user = self.reddit.redditor(username)
             
             # Fetch submissions (posts)
-            PipelineLogger.info("  Fetching submissions...")
             for submission in user.submissions.new(limit=limit // 2):
                 text = f"{submission.title}. {submission.selftext}".strip()
                 if text and len(text) > 10:  # Filter very short posts
@@ -90,7 +84,6 @@ class RedditScraper:
                     })
             
             # Fetch comments
-            PipelineLogger.info("  Fetching comments...")
             for comment in user.comments.new(limit=limit // 2):
                 text = comment.body.strip()
                 if text and len(text) > 10:
@@ -107,15 +100,11 @@ class RedditScraper:
             if len(df) > 0:
                 # Sort by score (most popular first)
                 df = df.sort_values('score', ascending=False)
-                PipelineLogger.success(f"  Fetched {len(df)} posts from u/{username}")
-            else:
-                PipelineLogger.warning(f"  No posts found for u/{username}")
             
             return df
         
         except Exception as e:
-            PipelineLogger.error(f"Failed to fetch u/{username}: {e}")
-            return pd.DataFrame()
+            raise Exception(f"Failed to fetch u/{username}: {str(e)}")
     
     def save_user_data(self, username: str, limit: int = 100, 
                        output_file: Optional[str] = None) -> str:
@@ -136,7 +125,6 @@ class RedditScraper:
         
         # Save to CSV
         df.to_csv(output_file, index=False)
-        PipelineLogger.success(f"Saved to {output_file}")
         
         return output_file
 
