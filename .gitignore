@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+env/
+*.egg-info/
+dist/
+build/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Data files - keep nothing for clean deployment
+*.csv
+*.txt
+!requirements_minimal.txt
+!README_DEPLOY.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# OLD FILES - Not needed for minimal app
+cross_encoder_pipeline.py
+stage_1_analyze_pairs.py
+stage_2_synthesize_report.py
+run_pipeline.py
+cuda.py
+cpu.py
+decoder.py
+training_data.py
+data*.py
+process_data.py
+embed_post.py
+app.py
+app_v2_dynamic.py
+config.py
+utils.py
+setup_check.py
+install_dependencies.py
+requirements.txt
+requirements_enhanced.txt
+offload_cpu/
+.github/
+
