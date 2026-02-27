@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#06b6d4", // Cyan-500 for the cosmic feel
+                        "primary-glow": "#22d3ee", // Cyan-400
+                        "background-light": "#f8fcfd",
+                        "background-dark": "#02040a", // Deep Navy/Black
+                        "surface-dark": "#0a101f", // Slightly lighter navy for cards
+                        "slate-900": "#0f172a",
+                        "slate-100": "#f1f5f9",
+                        "cosmic-blue": "#0c4a6e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px"},
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .cosmic-orb {
+            background: radial-gradient(circle at center, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0) 65%);
+            filter: blur(40px);
+        }
+        .glass-card {
+            background: rgba(10, 16, 31, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .radar-grid {
+            stroke: rgba(6, 182, 212, 0.2);
+            stroke-width: 1;
+        }
+        .radar-area {
+            fill: rgba(6, 182, 212, 0.25);
+            stroke: #06b6d4;
+            stroke-width: 2;
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.4));
+        }::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #02040a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen relative overflow-x-hidden selection:bg-primary/30 selection:text-white">
+<div class="fixed top-[-20%] left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] max-w-[1000px] max-h-[1000px] cosmic-orb pointer-events-none z-0 opacity-60"></div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-white/5 px-6 py-4 lg:px-12 bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-2xl">all_inclusive</span>
+</div>
+<h2 class="text-slate-100 text-base font-semibold tracking-wide">Semantic Engine</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-400 hover:text-primary text-sm font-medium transition-colors" href="#">Explorer</a>
+<a class="text-slate-400 hover:text-primary text-sm font-medium transition-colors" href="#">Docs</a>
+<a class="text-slate-400 hover:text-primary text-sm font-medium transition-colors" href="#">API</a>
+</nav>
+<div class="h-5 w-px bg-white/10 hidden sm:block"></div>
+<button class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 text-primary text-xs font-mono hover:bg-primary/10 transition-colors">
+<span>Console</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-white/10 ring-2 ring-transparent hover:ring-primary/50 transition-all cursor-pointer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBuPcWTvXbj5iFxan0H7uN_kimMS74_LyxzxkJPmLl7K2RYyPjx6ubxC7ejzbQGB8EDK2YI-yJF8S_Vgn2zq9IAqYW0xMGc3gGEGfasJ8GMmyOQQbaKaosoac45EH1KZ8zccn2vQ3p4hiUCqHBHuOVchB9gmAPRKymvouCqkCkGfpFE3Yehzp9_ipcgLjhzrhkGAtMmZ41JrrHXW-Vmdk8_gDcfOGMD46LEmUpa9mQMMqf8UFrPdFOQkYcn9NR6KBAmoLICAB-vPdE");'></div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 py-8 lg:px-8">
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
+<div class="space-y-3">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-2">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                    ANALYSIS COMPLETE
+                </div>
+<h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white">
+                    📋 Compatibility Report: <span class="font-mono text-primary-glow">u/UserA</span> ↔ <span class="font-mono text-primary-glow">u/UserB</span>
+</h1>
+<p class="text-slate-400 text-sm max-w-2xl leading-relaxed">
+                    Semantic vector analysis utilizing high-dimensional embeddings to map personality traits, communication patterns, and interest overlaps based on public Reddit activity.
+                </p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="flex items-center gap-3 bg-surface-dark/50 p-1.5 pl-4 pr-2 rounded-lg border border-white/10 backdrop-blur-sm">
+<span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase">Developer Mode</span>
+<button class="relative inline-flex h-5 w-9 items-center rounded-full bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900 group">
+<span class="sr-only">Enable developer mode</span>
+<span class="translate-x-1 inline-block h-3 w-3 transform rounded-full bg-white transition group-hover:bg-primary"></span>
+</button>
+</div>
+<div class="hidden lg:grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] font-mono text-slate-500 text-right">
+<span>Similarity: <span class="text-primary">0.8421</span></span>
+<span>Dims: <span class="text-primary">3072</span></span>
+<span>Posts: <span class="text-primary">842</span></span>
+<span>Model: <span class="text-primary">text-embedding-3-large</span></span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+<div class="lg:col-span-8 lg:col-start-3 glass-card rounded-2xl p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoNiwgMTgyLDIxMiwgMC4xKSIvPjwvc3ZnPg==')] opacity-30"></div>
+<div class="relative z-10 flex items-center justify-center shrink-0">
+<div class="relative size-48 md:size-56">
+<svg class="size-full -rotate-90 transform" viewBox="0 0 100 100">
+<circle class="text-slate-800" cx="50" cy="50" fill="transparent" r="42" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary" cx="50" cy="50" fill="transparent" r="42" stroke="currentColor" stroke-dasharray="264" stroke-dashoffset="42" stroke-linecap="round" stroke-width="6" style="filter: drop-shadow(0 0 4px rgba(6,182,212,0.6));"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-5xl md:text-6xl font-black text-white tracking-tighter">84<span class="text-2xl text-primary align-top">%</span></span>
+<span class="text-xs font-bold text-primary uppercase tracking-widest mt-1">Match</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 max-w-sm text-center md:text-left">
+<h3 class="text-xl font-bold text-white mb-2 flex items-center justify-center md:justify-start gap-2">
+<span class="material-symbols-outlined text-primary">hub</span>
+                        High Semantic Resonance
+                    </h3>
+<p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        The vector analysis indicates a strong alignment in core values and cognitive processing styles. While distinct in specific hobbies, the underlying semantic structures of user discourse show remarkable compatibility in communication tone and problem-solving approaches.
+                    </p>
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded text-xs font-mono text-primary">
+<span>p_value: &lt; 0.001</span>
+<span class="w-px h-3 bg-primary/30"></span>
+<span>confidence: 98.2%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+<div class="lg:col-span-5 glass-card rounded-2xl p-6 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider">Trait Alignment Radar</h3>
+<span class="material-symbols-outlined text-slate-600 text-lg cursor-help" title="Based on 5-point semantic vector dimensions">help</span>
+</div>
+<div class="flex-1 flex items-center justify-center relative min-h-[320px]">
+<svg class="w-full h-full max-w-[340px]" viewBox="0 0 400 400">
+<polygon class="radar-grid" fill="rgba(255,255,255,0.02)" points="200,40 352,150 294,330 106,330 48,150"></polygon>
+<polygon class="radar-grid" fill="none" points="200,80 314,162 270,298 130,298 86,162"></polygon>
+<polygon class="radar-grid" fill="none" points="200,120 276,175 247,265 153,265 124,175"></polygon>
+<line class="radar-grid" x1="200" x2="200" y1="200" y2="40"></line>
+<line class="radar-grid" x1="200" x2="352" y1="200" y2="150"></line>
+<line class="radar-grid" x1="200" x2="294" y1="200" y2="330"></line>
+<line class="radar-grid" x1="200" x2="106" y1="200" y2="330"></line>
+<line class="radar-grid" x1="200" x2="48" y1="200" y2="150"></line>
+<polygon class="radar-area" points="200,60 330,160 260,300 130,280 90,180"></polygon>
+<circle class="fill-primary" cx="200" cy="60" r="3"></circle>
+<circle class="fill-primary" cx="330" cy="160" r="3"></circle>
+<circle class="fill-primary" cx="260" cy="300" r="3"></circle>
+<circle class="fill-primary" cx="130" cy="280" r="3"></circle>
+<circle class="fill-primary" cx="90" cy="180" r="3"></circle>
+<text class="fill-slate-400 text-[10px] font-bold uppercase" text-anchor="middle" x="200" y="25">Topic Overlap</text>
+<text class="fill-slate-400 text-[10px] font-bold uppercase" text-anchor="start" x="370" y="150">Sentiment</text>
+<text class="fill-slate-400 text-[10px] font-bold uppercase" text-anchor="middle" x="310" y="350">Comm. Tone</text>
+<text class="fill-slate-400 text-[10px] font-bold uppercase" text-anchor="middle" x="90" y="350">Engagement</text>
+<text class="fill-slate-400 text-[10px] font-bold uppercase" text-anchor="end" x="30" y="150">Expertise</text>
+</svg>
+</div>
+</div>
+<div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="glass-card rounded-2xl p-5 border-t-2 border-t-primary">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-primary">diversity_3</span>
+<h4 class="font-bold text-slate-200 text-sm">Shared Interests &amp; Values</h4>
+</div>
+<ul class="space-y-2 mb-3">
+<li class="flex items-start gap-2 text-xs text-slate-400">
+<span class="text-primary mt-0.5">▹</span>
+<span>Deep technical curiosity in distributed systems</span>
+</li>
+<li class="flex items-start gap-2 text-xs text-slate-400">
+<span class="text-primary mt-0.5">▹</span>
+<span>Advocacy for open-source privacy tools</span>
+</li>
+<li class="flex items-start gap-2 text-xs text-slate-400">
+<span class="text-primary mt-0.5">▹</span>
+<span>Constructive skepticism in political threads</span>
+</li>
+</ul>
+<div class="bg-surface-dark p-2 rounded border border-white/5">
+<code class="text-[9px] text-primary/70 font-mono block overflow-hidden text-ellipsis whitespace-nowrap">cluster_overlap_coeff: 0.892</code>
+</div>
+</div>
+<div class="glass-card rounded-2xl p-5 border-t-2 border-t-purple-500">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-purple-400">contrast</span>
+<h4 class="font-bold text-slate-200 text-sm">Complementary Differences</h4>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed mb-3">
+                        User A focuses on macro-economic trends while User B dives into micro-optimizations. This creates a "Forest vs. Trees" dynamic that suggests high collaborative potential for problem solving.
+                    </p>
+<div class="bg-surface-dark p-2 rounded border border-white/5">
+<code class="text-[9px] text-purple-400/70 font-mono block overflow-hidden text-ellipsis whitespace-nowrap">divergence_metric: "orthogonal_focus"</code>
+</div>
+</div>
+<div class="glass-card rounded-2xl p-5 border-t-2 border-t-emerald-500">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-emerald-400">chat</span>
+<h4 class="font-bold text-slate-200 text-sm">Communication Analysis</h4>
+</div>
+<div class="flex justify-between items-center text-xs text-slate-400 mb-2">
+<span>Formality</span>
+<div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-400 w-[70%]"></div>
+</div>
+</div>
+<div class="flex justify-between items-center text-xs text-slate-400 mb-3">
+<span>Empathy</span>
+<div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-400 w-[85%]"></div>
+</div>
+</div>
+<div class="bg-surface-dark p-2 rounded border border-white/5">
+<code class="text-[9px] text-emerald-400/70 font-mono block overflow-hidden text-ellipsis whitespace-nowrap">sentiment_alignment: 0.94 (High)</code>
+</div>
+</div>
+<div class="glass-card rounded-2xl p-5 border-t-2 border-t-amber-500">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-amber-400">trending_up</span>
+<h4 class="font-bold text-slate-200 text-sm">Relationship Potential</h4>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed mb-3">
+                        Predicted interaction quality is high. Both users exhibit low neuroticism and high openness in their writing, suggesting conflicts would be resolved through logical debate rather than emotional escalation.
+                    </p>
+<div class="bg-surface-dark p-2 rounded border border-white/5">
+<code class="text-[9px] text-amber-400/70 font-mono block overflow-hidden text-ellipsis whitespace-nowrap">predict_model: "interaction_v3_beta"</code>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-2xl p-8 mb-12">
+<h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">forum</span>
+                Algorithmic Conversation Starters
+            </h3>
+<div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+<div class="bg-surface-dark/50 border border-white/5 p-4 rounded-xl hover:border-primary/30 transition-colors cursor-default group">
+<div class="text-primary font-mono text-xs mb-2 opacity-50 group-hover:opacity-100">01_TOPIC</div>
+<p class="text-sm text-slate-300">"Thoughts on the recent shifts in Rust's async runtime ecosystem?"</p>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 p-4 rounded-xl hover:border-primary/30 transition-colors cursor-default group">
+<div class="text-primary font-mono text-xs mb-2 opacity-50 group-hover:opacity-100">02_TOPIC</div>
+<p class="text-sm text-slate-300">"How do you balance privacy with convenience in smart home setups?"</p>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 p-4 rounded-xl hover:border-primary/30 transition-colors cursor-default group">
+<div class="text-primary font-mono text-xs mb-2 opacity-50 group-hover:opacity-100">03_TOPIC</div>
+<p class="text-sm text-slate-300">"Is the current state of AI alignment research overly pessimistic?"</p>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 p-4 rounded-xl hover:border-primary/30 transition-colors cursor-default group">
+<div class="text-primary font-mono text-xs mb-2 opacity-50 group-hover:opacity-100">04_TOPIC</div>
+<p class="text-sm text-slate-300">"Best mechanical keyboard switches for long coding sessions?"</p>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 p-4 rounded-xl hover:border-primary/30 transition-colors cursor-default group">
+<div class="text-primary font-mono text-xs mb-2 opacity-50 group-hover:opacity-100">05_TOPIC</div>
+<p class="text-sm text-slate-300">"Predictions for the next decade of decentralized finance protocols?"</p>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-600 font-mono uppercase tracking-widest">
+<div class="flex gap-6">
+<span>ID: <span class="text-slate-500">REQ_9921_AF</span></span>
+<span>LATENCY: <span class="text-slate-500">142ms</span></span>
+<span>TOKENS: <span class="text-slate-500">2,410</span></span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500/20 flex items-center justify-center">
+<div class="size-1 rounded-full bg-green-500"></div>
+</div>
+                System Operational
+            </div>
+<div>© 2024 Semantic Engine Protocol. MIT License.</div>
+</div>
+</main>
+</div>
+
+</body></html>
